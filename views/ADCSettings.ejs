@@ -1,0 +1,76 @@
+<%- include('header') -%>
+
+<title>ADC</title>
+</head>
+<body>
+
+<%- include('menu') -%>
+
+
+<form action="/ADCSettings" method="POST">
+
+    <tr>
+        <td>
+            Filter Type
+        </td>
+
+    </tr>
+
+    <select name="FilterType" id="FilterType" >
+
+        <option value="lowpass">LowPass</option>
+        <option value="highpass">HighPass</option>
+        <option value="bandpass">BandPass</option>
+        <option value="bandstop">Notch</option>
+    </select>
+
+
+    <tr>
+        <td>
+            Order
+        </td>
+
+    </tr>
+
+    <select name="Order" id="Order" >
+
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+    </select>
+
+    <tr>
+        <td>
+            Normalized Cutoff Frequency
+
+        </td>
+
+    </tr>
+
+
+    <input type="text" name="cutoff1" id="cutoff1">
+    <input type="text" name="cutoff2" id="cutoff2">
+
+
+    <tr>
+        <td>
+            Channel Number
+
+        </td>
+
+    </tr>
+
+    <select name="ChannelNumber" id="ChannelNumber" >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <input type="submit" class="btn btn-primary" value="Create Filter"/>
+</form>
+
+
+<%- include('footer') -%>
