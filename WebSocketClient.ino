@@ -26,7 +26,7 @@ const int START_HW = D1;
 // VARIABLES FOR WIFI COMMUNICATION0
 const char* ssid     = "AP1";
 const char* password = "thereisnospoon";
-char* host = "192.168.137.1";  //replace this ip address with the ip address of your Node.Js server(laptop)
+char* host = "192.168.137.1";  //replace this ip address with the ip address of the Node.Js server(laptop)
 const int espport= 3000;
 
 // Commands //
@@ -233,7 +233,7 @@ void setup() {
   pinMode(START_HW, OUTPUT);
   pinMode(CS, OUTPUT);
   
-	USE_SERIAL.begin(115200);
+  USE_SERIAL.begin(115200);
 
   digitalWrite(CS, LOW);   
   SPI.begin();
@@ -286,13 +286,13 @@ void setup() {
 }
 
 void loop() {
-	webSocket.loop();
+webSocket.loop();
 
-  currentMillis=millis();
+currentMillis=millis();
 
-
-  if(command=="start"){
-    if (abs(currentMillis - previousMillis) >= interval) {
+//if command start command is sent start downsampling
+if(command=="start"){
+  if (abs(currentMillis - previousMillis) >= interval) {
       
       previousMillis = currentMillis;
       READDATA();
@@ -301,7 +301,7 @@ void loop() {
       //y=biquad1.filter(raw_data);
       //y=biquad2.filter(y);
     
-      
+      //Buffering to UDP packet
       if(msg_count < 500){
         d+= stamp+","+String(raw_data)+ "\n";
         
@@ -317,23 +317,20 @@ void loop() {
         msg_count++;
         }
     }
-    }
+}
     
   else if(command=="init"){
     ADC_settings();
     delay(1000);
     command="";
       }
-
+// IIR filter design was not used that much
    /*else if(command.length() > 10){
-    
      DeserializationError error = deserializeJson(doc, command);
-       
        if(error){
         Serial.print("failed with");
         Serial.println(error.c_str());
         }
-
        int ord= doc["order"];
        const short int b0=doc["DirectForm"][0]["b0"];
        const short int b1=doc["DirectForm"][0]["b1"];
@@ -349,14 +346,8 @@ void loop() {
        const short int a11=doc["DirectForm"][1]["a1"];
        const short int a12=doc["DirectForm"][1]["a2"];
        DirectFormI biquad2(b10,b11,b12,a10,a11,a12,14);
-
-      
-        
        Serial.println("filters created");
        command=""; 
-       delay(1000);
-       
+       delay(1000); 
     }*/
-
-   
- }
+}
