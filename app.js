@@ -5,9 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser')
 
+// load router modules
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// create express application
 var app = express();
 
 // view engine setup
