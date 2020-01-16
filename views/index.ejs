@@ -2,22 +2,18 @@
 
 <title>Websocket</title>
        <script type="text/javascript" src="canvasjs.min.js"></script>
-
        <script>
        window.onload = function () {
 
            var xVal = 0;
            var yVal = 100;
            var updateInterval = 20;
-           var dataLength = 100; // number of dataPoints visible at any point
+           var dataLength = 100;                               // number of dataPoints visible at any point
 
-           var dps = []; // dataPoints1
-           //var dps2 = []; // dataPoints2
-           //var dps3 = []; // dataPoints3
-           //var dps4 = []; // dataPoints4
-           //var dps5 = []; // dataPoints5
+           var dps = [];                                       // dataPoints container
 
-           //Creating 5 Chart variables
+           //Creating Chart variables
+           
            var chart = new CanvasJS.Chart("chartContainer1", {
                title :{
                    text: "Channel 1"
@@ -30,186 +26,39 @@
                    dataPoints: dps
                }]
            });
-           /*var chart2 = new CanvasJS.Chart("chartContainer2", {
-               title :{
-                   text: "Channel 2"
-               },
-               axisY: {
-                   includeZero: false
-               },
-               data: [{
-                   type: "line",
-                   dataPoints: dps2
-               }]
-           });
-           var chart3 = new CanvasJS.Chart("chartContainer3", {
-               title :{
-                   text: "Channel 3"
-               },
-               axisY: {
-                   includeZero: false
-               },
-               data: [{
-                   type: "line",
-                   dataPoints: dps3
-               }]
-           });
-           var chart4 = new CanvasJS.Chart("chartContainer4", {
-               title :{
-                   text: "Channel 4"
-               },
-               axisY: {
-                   includeZero: false
-               },
-               data: [{
-                   type: "line",
-                   dataPoints: dps4
-               }]
-           });
-           var chart5 = new CanvasJS.Chart("chartContainer5", {
-               title :{
-                   text: "Channel 5"
-               },
-               axisY: {
-                   includeZero: false
-               },
-               data: [{
-                   type: "line",
-                   dataPoints: dps5
-               }]
-           });*/
-
-           //Creating 5 update functions for each chart to push the data point variables and render when start command is sent
+           
+           //Creating update function for chart to push the data point variables and render when start command is sent
            var updateChart = function (count) {
 
-       count = count || 1;
+           count = count || 1;
 
-       for (var j = 0; j < count; j++) {
-       yVal=DATA1;
-       //yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-       dps.push({
-       x: xVal,
-       y: yVal
-       });
-       xVal++;
-       }
+           for (var j = 0; j < count; j++) {
+              yVal=DATA1;
+              dps.push({
+              x: xVal,
+              y: yVal
+              });
+              xVal++;
+            }
 
-       if (dps.length > dataLength) {
-       dps.shift();
-       }
-       if (command === "start"){
-       chart.render()
-       }
-       };
-
-          /* var updateChart2 = function (count) {
-
-               count = count || 1;
-
-               for (var j = 0; j < count; j++) {
-                   yVal=DATA2;
-                   //yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-                   dps2.push({
-                       x: xVal,
-                       y: yVal
-                   });
-                   xVal++;
-               }
-
-               if (dps2.length > dataLength) {
-                   dps2.shift();
+            if (dps.length > dataLength) {
+               dps.shift();
                }
                if (command === "start"){
-                   chart2.render();
+               chart.render()
                }
-           };
-           var updateChart3 = function (count) {
-
-               count = count || 1;
-
-               for (var j = 0; j < count; j++) {
-                   yVal=DATA3;
-                   //yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-                   dps3.push({
-                       x: xVal,
-                       y: yVal
-                   });
-                   xVal++;
-               }
-
-               if (dps3.length > dataLength) {
-                   dps3.shift();
-               }
-               if (command === "start"){
-                   chart3.render();
-               }
-           };
-           var updateChart4 = function (count) {
-
-               count = count || 1;
-
-               for (var j = 0; j < count; j++) {
-                   yVal=DATA4;
-                   //yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-                   dps4.push({
-                       x: xVal,
-                       y: yVal
-                   });
-                   xVal++;
-               }
-
-               if (dps4.length > dataLength) {
-                   dps4.shift();
-               }
-               if (command === "start"){
-                   chart4.render();
-               }
-           };
-           var updateChart5 = function (count) {
-
-               count = count || 1;
-
-               for (var j = 0; j < count; j++) {
-                   yVal=DATA5;
-                   //yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-                   dps5.push({
-                       x: xVal,
-                       y: yVal
-                   });
-                   xVal++;
-               }
-
-               if (dps5.length > dataLength) {
-                   dps5.shift();
-               }
-               if (command === "start"){
-                   chart5.render();
-               }
-           };*/
+              };
 
            //Updating chart
            updateChart(dataLength);
-           setInterval(function(){updateChart()}, updateInterval);
-          /* updateChart2(dataLength);
-           setInterval(function(){updateChart2()}, updateInterval);
-           updateChart3(dataLength);
-           setInterval(function(){updateChart3()}, updateInterval);
-           updateChart4(dataLength);
-           setInterval(function(){updateChart4()}, updateInterval);
-           updateChart5(dataLength);
-           setInterval(function(){updateChart5()}, updateInterval);*/
-       }
-
+           setInterval(function(){updateChart()}, updateInterval);    
+              }
    </script>
-
-
-
    </head>
    <body>
-
+   
    <%- include('menu') -%>
-
-
+   
    <input style="width: 800px;height: 200px" type="text" placeholder="enter text here to send to server" id="eingabe" onkeypress="myFunction(event)"/>
 
    <button type="button" class="btn btn-dark" onclick="clearlog()">Clear Logs</button>
@@ -217,87 +66,36 @@
    <button type="button" class="btn btn-dark" onclick="STOP()">Stop</button>
    <button type="button" class="btn btn-dark" onclick="InitADC()">InitADC</button>
 
-
    <div id="chartContainer1" style="height: 270px; width:50%;"></div>
-   <div id="chartContainer2" style="height: 270px; width:50%;"></div>
-   <div id="chartContainer3" style="height: 270px; width:50%;"></div>
-   <div id="chartContainer4" style="height: 270px; width:50%;"></div>
-   <div id="chartContainer5" style="height: 270px; width:50%;"></div>
-
    <div style="overflow:scroll; width: 800px; height: 550px; border: solid; border-radius: 9px" id="display"></div>
 
    <script>
-       //var sock =new WebSocket("ws://localhost:5001");
        var DATA1=10;
-       var DATA2=11;
-       var DATA3=12;
-       var DATA4=13;
-       var DATA5=14;
-
-       var idea = 0;
-
-       setInterval(
-           ()=> DATA1=idea,
-           2
-       );
-
        var command="";
-
-       var sock =new WebSocket("ws://192.168.137.1:3000");  //replace this address with the one the node.js server prints out. keep port 3000
+       var sock =new WebSocket("ws://192.168.137.1:3000");                          //replace this address with the one the node.js server prints out. keep port 3000
        var display=document.getElementById("display");
 
        sock.onopen=function(event){
-           //alert("Socket connected successfully!!!")
            setTimeout(function(){sock.send('connection succeeded');},1000);
            display.innerHTML+="connection succeeded <br />";
        };
        sock.onmessage=function(event){
-
-           idea = parseInt(event.data.substring(12))*0.00000059604644775390625;
-           // Sort the incoming messages by appended channel ID (A,B,C,D,E) before the channel data
-
-
-           /*switch(event.data.substring(11,12)){
-               case "A":
-                   DATA1= parseInt(event.data.substring(12))*0.00000059604644775390625; // eliminate "broadcast: " and channel ID from message and only leave the number as string
-                   break;
-
-               case "B":
-                   DATA2= parseInt(event.data.substring(12));
-                   break;
-
-               case "C":
-                   DATA3= parseInt(event.data.substring(12));
-                   break;
-
-               case "D":
-                   DATA4= parseInt(event.data.substring(12));
-                   break;
-
-               case "E":
-                   DATA5= parseInt(event.data.substring(12));
-                   break;
-
-               default:
-
-           }*/
-
-           //console.log(event);//show received from server data in console of browser
-           //display.innerHTML+=event.data+"<br />"; //add incoming message from server to the log screen previous string + new string(message)
-           //DATA1= parseInt(event.data.substring(11)); // eliminate "broadcast: " from message and only leave the number as string
-           //console.log(event.data.substring(11,12));
-
+           DATA1=(parseInt(event.data));
+           //console.log(event);                                                    //show received from server data in console of browser
+           //display.innerHTML+=event.data+"<br />";                                //add incoming message from server to the log screen previous string + new string(message)
        };
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////// Button Functions 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////       
+       
        function myFunction(event) {
-           //sock.send("Hello");
-           if(event.keyCode==13){     //when enter is pressed...
-               var text=document.getElementById('eingabe').value;    //assign value of the entered string to te text variable
-               if(text!=""){     //if text is not an empty string
-                   //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
-                   sock.send(text);    //send string to server
-                   display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
-                   document.getElementById('eingabe').value="";     //and clear the input field
+           if(event.keyCode==13){                                                   //when enter is pressed...
+               var text=document.getElementById('eingabe').value;    
+               if(text!=""){                                                         //if text is not an empty string
+                   //display.innerHTML+="From Client: "+text+"<br />"; 
+                   sock.send(text);   
+                   display.innerHTML+="<strong>Me: </strong>" + text+"<br />";      
+                   document.getElementById('eingabe').value="";    
                }
                else{
                    console.log("empty string not sent")
@@ -308,14 +106,13 @@
        }
 
        function START(){
-           //var text="start";    //assign value of the entered string to te text variable
+           //assign value of the entered string to the text variable
            var text="start";
            command=text;
-           if(text!=""){     //if text is not an empty string
-               //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
-               sock.send(text);    //send string to server
-               display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
-               document.getElementById('eingabe').value="";     //and clear the input field
+           if(text!=""){     
+               sock.send(text);                                                     //send string to server
+               display.innerHTML+="<strong>Me: </strong>" + text+"<br />";          //display input text in div 
+               document.getElementById('eingabe').value="";                         //clear the input field
            }
            else{
                console.log("empty string not sent")
@@ -323,14 +120,13 @@
        }
 
        function STOP(){
-           //var text="stop";    //assign value of the entered string to te text variable
            var text="stop";
            command=text;
-           if(text!=""){     //if text is not an empty string
-               //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
-               sock.send(text);    //send string to server
-               display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
-               document.getElementById('eingabe').value="";     //and clear the input field
+           if(text!=""){    
+               //display.innerHTML+="From Client: "+text+"<br />"; 
+               sock.send(text);   
+               display.innerHTML+="<strong>Me: </strong>" + text+"<br />";      
+               document.getElementById('eingabe').value="";     
            }
            else{
                console.log("empty string not sent")
@@ -338,22 +134,18 @@
        }
 
        function InitADC(){
-           //var text="stop";    //assign value of the entered string to te text variable
            var text="init";
            command=text;
-           if(text!=""){     //if text is not an empty string
-               //display.innerHTML+="From Client: "+text+"<br />"; //show the message from client in div
-               sock.send(text);    //send string to server
-               display.innerHTML+="<strong>Me: </strong>" + text+"<br />";       //display input text in div (client side)
-               document.getElementById('eingabe').value="";     //and clear the input field
+           if(text!=""){     
+               //display.innerHTML+="From Client: "+text+"<br />";
+               sock.send(text);  
+               display.innerHTML+="<strong>Me: </strong>" + text+"<br />";     
+               document.getElementById('eingabe').value="";  
            }
            else{
                console.log("empty string not sent")
            }
        }
-
-
    </script>
-
    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
    <%- include('footer') -%>
