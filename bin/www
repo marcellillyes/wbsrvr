@@ -7,15 +7,42 @@
 var app = require('../app');
 var debug = require('debug')('webserver:server');
 var http = require('http');
+const dgram = require('dgram');
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+const fs = require('fs');
+const WebSocket = require('ws');
+//const { Worker } = require('worker_threads');
+
+////This is the threading function used for trying to speed up I/O
+
+/*function runService(workerData) {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker('./worker.js', { workerData });
+    worker.on('message', resolve);
+    worker.on('error', reject);
+    worker.on('exit', (code) => {
+      if (code !== 0)
+        reject(new Error(`Worker stopped with exit code ${code}`));
+    })
+  })
+}*/
+
+const w = fs.createWriteStream('C:\\Users\\illye\\IdeaProjects\\webserver\\Data' + '/log.txt');
+
+const sok = dgram.createSocket('udp4');
 
 /////////////////
-var WebSocket = require('ws');
+
 require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+  sok.bind({port:8082, address:add});
+  setTimeout(function () {
+    sok.setBroadcast(true);
+    sok.setMulticastTTL(128);
+    //sok.addMembership('230.185.192.108');
+  }, 1000);
   console.log('addr: '+add);
 });
-
-
-
 
 ///////////////
 /**
@@ -25,44 +52,48 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+
+/**
+ * UDP message event listener
+ */
+
+sok.on('message', (msg) => {
+  w.write(msg);
+});
+
+
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
 
-const s = new WebSocket.Server({ server });
+/**
+ * UDP eventListener : connection active
+ */
+
+sok.on('listening', () => {
+  let addr = sok.address();
+  console.log(`Listening for UDP packets at ${addr.address}:${addr.port}`);
+});
+
+const s = new WebSocket.Server({ server});
 
 s.on('connection',function(ws,req){
-  /******* when server receives messsage from client trigger function with argument message *****/
+  //when server receives message from client trigger function with argument message
   ws.on('message',function(message){
-    console.log(message);
-    //pyshell.send(message);
-
-
-    //console.log(message);
-    s.clients.forEach(function(client){ //broadcast incoming message to all clients (s.clients)
+   s.clients.forEach(function(client){ //broadcast incoming message to all clients (s.clients)
       if(client!=ws && client.readyState ){ //except to the same client (ws) that sent this message
-
-
-        client.send("broadcast: " +message);
-
-
-
-        //logger.log(message);
+        client.send(message);
       }
     });
-// ws.send("From Server only to sender: "+ message); //send to client where message is from
   });
   ws.on('close', function(){
     console.log("lost one client");
   });
   ws.on('error', console.log);
-//ws.send("new client connected");
   console.log("new client connected");
 });
-
-
 
 /**
  * Listen on provided port, on all network interfaces.
