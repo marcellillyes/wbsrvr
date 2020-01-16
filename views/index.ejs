@@ -123,7 +123,6 @@
            var text="stop";
            command=text;
            if(text!=""){    
-               //display.innerHTML+="From Client: "+text+"<br />"; 
                sock.send(text);   
                display.innerHTML+="<strong>Me: </strong>" + text+"<br />";      
                document.getElementById('eingabe').value="";     
@@ -137,7 +136,6 @@
            var text="init";
            command=text;
            if(text!=""){     
-               //display.innerHTML+="From Client: "+text+"<br />";
                sock.send(text);  
                display.innerHTML+="<strong>Me: </strong>" + text+"<br />";     
                document.getElementById('eingabe').value="";  
