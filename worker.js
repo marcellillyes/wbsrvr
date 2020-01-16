@@ -1,10 +1,14 @@
+
+///This method was tested when multithread writing to different files
+
 const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs');
 const EventEmitter = require('events');
 
+
 var w= fs.createWriteStream('C:\\Users\\illye\\IdeaProjects\\webserver\\Data' + '/'+ Date.now().toString() +'.txt');
 
-
+//class for quing writing
 class Queue extends EventEmitter {
     constructor(basePath, baseIndex, concurrent = 5) {
         super();
@@ -56,6 +60,9 @@ class Queue extends EventEmitter {
         this.write();
     }
 }
+
+//these methods did not speed up I/O operations
+
 //let q = new Queue('C:\\Users\\illye\\IdeaProjects\\webserver\\Data',0,5);
 //q.add(workerData);
 
@@ -65,5 +72,4 @@ class Queue extends EventEmitter {
 });*/
 
 w.write(workerData);
-
 parentPort.postMessage("done");
