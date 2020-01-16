@@ -12,6 +12,7 @@ for line in sys.stdin:
     n = int(data['Order'])
     fc1 = data['cutoff1']
     fc2 = data['cutoff2']
+    att = int(data['attenuation'])
 
     # Bandpass and Bandstop requires 2 cutoff points
 
@@ -22,7 +23,7 @@ for line in sys.stdin:
 
     # Generate filter coefficients
 
-    sos = signal.butter(N=n, Wn=fc, btype=t, output='sos')
+    sos = signal.cheby2(N=n, rs=att, Wn=fc, btype=t, output='sos')
 
     # Create empty dictionary with DirectForm field
 
@@ -35,16 +36,17 @@ for line in sys.stdin:
 
         coeff = {
             "i" : i,
-            "b0": sos[i][0],
-            "b1": sos[i][1],
-            "b2": sos[i][2],
-            "a0": sos[i][3],
-            "a1": sos[i][4],
-            "a2": sos[i][5]
+            "b0": np.round(sos[i][0]*(2**14)),
+            "b1": np.round(sos[i][1]*(2**14)),
+            "b2": np.round(sos[i][2]*(2**14)),
+            "a0": np.round(sos[i][3]*(2**14)),
+            "a1": np.round(sos[i][4]*(2**14)),
+            "a2": np.round(sos[i][5]*(2**14))
         }
 
         out['DirectForm'].append(coeff)
 
+    out['order'] = len(sos)
     # Serializing to json and sending to server
 
     print(json.dumps(out))
