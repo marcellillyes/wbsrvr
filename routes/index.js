@@ -12,7 +12,7 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { address: address });
-  console.log(2);
 });
 
+//export to router module
 module.exports = router;
