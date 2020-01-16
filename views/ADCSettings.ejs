@@ -6,7 +6,6 @@
 
 <%- include('menu') -%>
 
-
 <form action="/ADCSettings" method="POST">
 
     <tr>
@@ -23,7 +22,6 @@
         <option value="bandpass">BandPass</option>
         <option value="bandstop">Notch</option>
     </select>
-
 
     <tr>
         <td>
@@ -43,7 +41,6 @@
     <tr>
         <td>
             Normalized Cutoff Frequency
-
         </td>
 
     </tr>
@@ -55,22 +52,20 @@
 
     <tr>
         <td>
-            Channel Number
-
+            Stopband Attenuation (dB)
         </td>
 
     </tr>
 
-    <select name="ChannelNumber" id="ChannelNumber" >
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+    <select name="attenuation" id="attenuation" >
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="40">40</option>
+        <option value="60">60</option>
+        <option value="80">80</option>
     </select>
 
     <input type="submit" class="btn btn-primary" value="Create Filter"/>
 </form>
-
 
 <%- include('footer') -%>
