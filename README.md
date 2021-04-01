@@ -1,6 +1,6 @@
 # wbsrvr
 
-A node backend hosts an HTTP server, a websocket server and a UDP socket which all use the same IP address however UDP binds on a port 8082 while express and the websocket operates on port 3000.
+A node backend that hosts an HTTP server, a websocket server and a UDP socket which all use the same IP address however UDP binds on a port 8082 while express and the websocket operates on port 3000.
 
 The app.js file configures the express environment for node.
 
